@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import Product from './Product';
 import '../App.css';
 
-const Products = ({ products }) => (
+const Products = ({ products, reachedTheEnd }) => (
     <div className="product-container">
         {products.map((product, key) => (
-            <React.Fragment key={key}>
+            <Fragment key={key}>
                 <Product product={product} products={products}/>
-            </React.Fragment>
+            </Fragment>
         ))}
     </div>
 );

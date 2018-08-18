@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 
-class Filter extends React.Component {
+class Filter extends Component {
 
     filtersRef = React.createRef();
 
@@ -12,14 +12,14 @@ class Filter extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
+            <Fragment>
                 <select name="filters" ref={this.filtersRef} onChange={this.addFilter}>
                     <option selected disabled>Filter</option>
                     <option value="size">Size</option>
                     <option value="price">Price</option>
                     <option value="id">ID</option>
                 </select>
-            </React.Fragment>
+            </Fragment>
         );
     }
 }

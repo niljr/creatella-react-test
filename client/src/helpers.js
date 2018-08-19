@@ -17,7 +17,7 @@ export function debounce(func, wait = 20, immediate = true) {
 
     return function() {
         var context = this, args = arguments;
-        var later = function () {
+        var later = function() {
             timeout = null;
             if (!immediate) func.apply(context, args);
         };

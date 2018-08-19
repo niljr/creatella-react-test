@@ -18,14 +18,12 @@ class App extends Component {
 
   async componentDidMount() {
     window.addEventListener("scroll", this.loadMoreProducts);
-
+    
     this.getProducts();
-
   }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
-
   }
 
   addFilter = async filter => {
@@ -44,7 +42,6 @@ class App extends Component {
     } catch(err) {
       console.error(err);
     }
-    
   }
 
   getProducts = async () => {
@@ -53,13 +50,12 @@ class App extends Component {
       const productsFromFetch = await fetchProducts(this.state.page, this.state.filter);
       const productsWithAds = ads(productsFromFetch); 
       
-      
       if (this.state.products.length > 0) {
         result = [...this.state.products, ...productsWithAds];
       } else {
         result = [...productsWithAds]
       }
-
+      
       if (productsFromFetch.length === 0) {
         this.setState({ reachedTheEnd: true })
         return;
@@ -73,7 +69,6 @@ class App extends Component {
     }catch(err) {
       console.error(err)
     }
-
   }
   
   loadMoreProducts = () => {
@@ -81,25 +76,24 @@ class App extends Component {
     const windowSize     = window.innerHeight;
     const bodyHeight     = document.body.offsetHeight;
 
-    const result = Math.max(bodyHeight - (scrollPosition + windowSize), 0)
-
+    const result = Math.max(bodyHeight - (scrollPosition + windowSize), 0);
+ 
     if (result === 0) {
-      this.setState({ loadingProduct: true });
       this.getProducts();
     }
   }
 
   renderProducts = () => {
-    console.log(this.state.reachedTheEnd)
     return (
       !this.state.isLoading ?
         <div>
-          <Products products={this.state.products} reachedTheEnd />
+          <Products products={this.state.products} />
+          {!this.state.isLoading && !this.state.reachedTheEnd ? <div className='loader'></div> : null}
+          {this.state.reachedTheEnd ? <h1 className='end-catalogue'>~ end of catalogue ~</h1> : null}
         </div>
       : 
         <div className='loader'></div>
     );
-    
   }
 
   render() {
@@ -109,13 +103,9 @@ class App extends Component {
           <h1>Products</h1>
           <Filter addFilter={this.addFilter} reachedTheEnd={this.state.reachedTheEnd} />
         </div>
-
         <Fragment>
           {this.renderProducts()}
-          {this.state.loadingProduct && !this.state.reachedTheEnd ? <div className='loader'></div> : null}
-          {this.state.reachedTheEnd ? <h1 className='end-catalogue'>~ end of catalogue ~</h1> : null}
         </Fragment>
-
       </div>
     );
   }
